@@ -1,13 +1,13 @@
-import { IsOptional, IsString, IsUUID, MaxLength } from 'class-validator';
+import { IsOptional, IsString, MaxLength } from 'class-validator';
 
 export class CreateBookingDto {
-  @IsUUID()
+  @IsString()
   specialistId: string;
 
-  @IsUUID()
+  @IsString()
   serviceId: string;
 
-  @IsUUID()
+  @IsString()
   timeSlotId: string;
 
   @IsOptional()
