@@ -13,7 +13,6 @@ export class BookingsService {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(userId: string, dto: CreateBookingDto) {
-    // Validate time slot exists and is available
     const timeSlot = await this.prisma.timeSlot.findUnique({
       where: { id: dto.timeSlotId },
     });
@@ -29,7 +28,6 @@ export class BookingsService {
       throw new BadRequestException('Time slot does not belong to this specialist');
     }
 
-    // Check for overlapping bookings for the same user
     const overlap = await this.prisma.booking.findFirst({
       where: {
         userId,
@@ -45,7 +43,6 @@ export class BookingsService {
       throw new BadRequestException('You already have a booking at this time');
     }
 
-    // Create booking and mark slot as unavailable atomically
     const [booking] = await this.prisma.$transaction([
       this.prisma.booking.create({
         data: {

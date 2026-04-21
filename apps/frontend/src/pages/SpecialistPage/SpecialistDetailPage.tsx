@@ -55,7 +55,6 @@ export function SpecialistDetailPage() {
       });
       navigate('/profile');
     } catch {
-      // TODO: show toast
     } finally {
       setBooking(false);
     }
@@ -75,7 +74,6 @@ export function SpecialistDetailPage() {
 
   return (
     <div className="flex flex-col gap-10">
-      {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
@@ -97,7 +95,6 @@ export function SpecialistDetailPage() {
       </motion.div>
 
       <div className="grid gap-8 lg:grid-cols-[1fr_340px]">
-        {/* Availability */}
         <div>
           <h2 className="mb-5 text-xl font-semibold text-[#e8e8f0]">Available slots</h2>
 
@@ -133,7 +130,6 @@ export function SpecialistDetailPage() {
           )}
         </div>
 
-        {/* Booking card */}
         <div className="sticky top-24">
           <Card className="flex flex-col gap-5">
             <h3 className="text-lg font-semibold text-[#e8e8f0]">Book a session</h3>

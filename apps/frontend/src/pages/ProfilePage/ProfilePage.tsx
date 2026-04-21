@@ -50,7 +50,6 @@ export function ProfilePage() {
 
   return (
     <div className="flex flex-col gap-10">
-      {/* User header */}
       <motion.div
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
@@ -65,7 +64,6 @@ export function ProfilePage() {
         </div>
       </motion.div>
 
-      {/* Upcoming */}
       <section>
         <h2 className="mb-5 text-xl font-semibold text-[#e8e8f0]">Upcoming sessions</h2>
 
@@ -116,7 +114,6 @@ export function ProfilePage() {
         )}
       </section>
 
-      {/* Past */}
       {past.length > 0 && (
         <section>
           <h2 className="mb-5 text-xl font-semibold text-[#e8e8f0]">Past sessions</h2>

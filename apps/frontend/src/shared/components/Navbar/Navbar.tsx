@@ -21,7 +21,6 @@ export function Navbar() {
       className="sticky top-0 z-50 border-b border-[#2e2e3e] bg-[#0f0f13]/80 backdrop-blur-xl"
     >
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-        {/* Logo */}
         <Link to="/" className="flex items-center gap-2">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-500">
             <span className="text-sm font-bold text-white">T</span>
@@ -29,7 +28,6 @@ export function Navbar() {
           <span className="text-lg font-semibold text-[#e8e8f0] tracking-tight">Trainix</span>
         </Link>
 
-        {/* Links */}
         <ul className="hidden md:flex items-center gap-1">
           {navLinks.map(({ href, label }) => {
             const isActive = location.pathname === href;
@@ -54,7 +52,6 @@ export function Navbar() {
           })}
         </ul>
 
-        {/* Auth */}
         <div className="flex items-center gap-3">
           {isAuthenticated ? (
             <>

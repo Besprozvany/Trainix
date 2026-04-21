@@ -71,7 +71,6 @@ export function SpecialistsListPage() {
           <motion.div key={specialist.id} variants={fadeUp}>
             <Link to={`/specialists/${specialist.id}`}>
               <Card hoverable className="flex flex-col gap-4 h-full">
-                {/* Avatar */}
                 <div className="flex items-center gap-4">
                   <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-500 to-violet-600 text-xl font-bold text-white">
                     {specialist.name[0]}
@@ -86,7 +85,6 @@ export function SpecialistsListPage() {
                   {specialist.description}
                 </p>
 
-                {/* Services */}
                 <div className="flex flex-wrap gap-2 mt-auto">
                   {specialist.services.slice(0, 3).map(({ service }) => (
                     <Badge key={service.id} variant="info">

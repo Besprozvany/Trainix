@@ -33,7 +33,6 @@ const fadeUp = {
 export function HomePage() {
   return (
     <div className="flex flex-col gap-24">
-      {/* Hero */}
       <motion.section
         variants={staggerContainer}
         initial="initial"
@@ -76,14 +75,12 @@ export function HomePage() {
           </Link>
         </motion.div>
 
-        {/* Glow effect */}
         <motion.div
           variants={fadeUp}
           className="pointer-events-none absolute left-1/2 top-40 h-96 w-96 -translate-x-1/2 rounded-full bg-indigo-600/10 blur-3xl"
         />
       </motion.section>
 
-      {/* Features */}
       <section>
         <motion.div
           initial="initial"
@@ -104,7 +101,6 @@ export function HomePage() {
         </motion.div>
       </section>
 
-      {/* CTA */}
       <motion.section
         initial={{ opacity: 0, scale: 0.97 }}
         whileInView={{ opacity: 1, scale: 1 }}

@@ -26,7 +26,6 @@ export class TimeSlotsService {
       throw new BadRequestException('Cannot create a slot in the past');
     }
 
-    // Check for overlapping slots
     const conflict = await this.prisma.timeSlot.findFirst({
       where: {
         specialistId: dto.specialistId,

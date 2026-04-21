@@ -46,7 +46,6 @@ export function CustomCursor() {
 
   return (
     <>
-      {/* Dot cursor */}
       <motion.div
         style={{ translateX: x, translateY: y }}
         animate={{
@@ -61,7 +60,6 @@ export function CustomCursor() {
         />
       </motion.div>
 
-      {/* Trail ring */}
       <motion.div
         style={{ translateX: trailX, translateY: trailY }}
         animate={{
