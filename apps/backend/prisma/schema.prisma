@@ -1,0 +1,136 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Enums ───────────────────────────────────────────────────────────────────
+
+enum Role {
+  CLIENT
+  SPECIALIST
+  ADMIN
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+}
+
+// ─── Models ──────────────────────────────────────────────────────────────────
+
+model User {
+  id           String    @id @default(uuid())
+  email        String    @unique
+  password     String
+  name         String
+  role         Role      @default(CLIENT)
+  refreshToken String?
+
+  bookings     Booking[]
+  reviews      Review[]
+
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@map("users")
+}
+
+model Specialist {
+  id          String   @id @default(uuid())
+  name        String
+  description String
+  avatar      String?
+  experience  Int      @default(0) // years of experience
+
+  services    SpecialistService[]
+  timeSlots   TimeSlot[]
+  bookings    Booking[]
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("specialists")
+}
+
+model Service {
+  id          String   @id @default(uuid())
+  name        String
+  description String
+  price       Decimal  @db.Decimal(10, 2)
+  duration    Int      // duration in minutes
+
+  specialists SpecialistService[]
+  bookings    Booking[]
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("services")
+}
+
+// Many-to-many: Specialist <-> Service
+model SpecialistService {
+  specialist   Specialist @relation(fields: [specialistId], references: [id], onDelete: Cascade)
+  specialistId String
+  service      Service    @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  serviceId    String
+
+  @@id([specialistId, serviceId])
+  @@map("specialist_services")
+}
+
+model TimeSlot {
+  id           String     @id @default(uuid())
+  specialist   Specialist @relation(fields: [specialistId], references: [id], onDelete: Cascade)
+  specialistId String
+  startTime    DateTime
+  endTime      DateTime
+  isAvailable  Boolean    @default(true)
+
+  booking      Booking?
+
+  createdAt    DateTime   @default(now())
+
+  @@map("time_slots")
+}
+
+model Booking {
+  id           String        @id @default(uuid())
+  user         User          @relation(fields: [userId], references: [id])
+  userId       String
+  specialist   Specialist    @relation(fields: [specialistId], references: [id])
+  specialistId String
+  service      Service       @relation(fields: [serviceId], references: [id])
+  serviceId    String
+  timeSlot     TimeSlot      @relation(fields: [timeSlotId], references: [id])
+  timeSlotId   String        @unique
+  status       BookingStatus @default(PENDING)
+  notes        String?
+
+  review       Review?
+
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  @@map("bookings")
+}
+
+model Review {
+  id        String   @id @default(uuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  booking   Booking  @relation(fields: [bookingId], references: [id])
+  bookingId String   @unique
+  rating    Int      // 1–5
+  comment   String?
+
+  createdAt DateTime @default(now())
+
+  @@map("reviews")
+}
