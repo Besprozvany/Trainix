@@ -8,16 +8,12 @@ import { useAuthStore } from '@/features/auth/store/authStore';
 import { Button } from '@/shared/ui/Button/Button';
 import { Input } from '@/shared/ui/Input/Input';
 
-const loginSchema = z.object({
+const registerSchema = z.object({
+  name: z.string().min(2, 'Name must be at least 2 characters'),
   email: z.string().email('Enter a valid email'),
   password: z.string().min(6, 'Password must be at least 6 characters'),
 });
 
-const registerSchema = loginSchema.extend({
-  name: z.string().min(2, 'Name must be at least 2 characters'),
-});
-
-type LoginForm = z.infer<typeof loginSchema>;
 type RegisterForm = z.infer<typeof registerSchema>;
 
 interface AuthPageProps {
@@ -36,7 +32,7 @@ export function AuthPage({ mode }: AuthPageProps) {
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<RegisterForm>({
-    resolver: zodResolver(isRegister ? registerSchema : loginSchema),
+    resolver: zodResolver(registerSchema),
   });
 
   const onSubmit = async (data: RegisterForm) => {
@@ -49,9 +45,10 @@ export function AuthPage({ mode }: AuthPageProps) {
       }
       navigate('/');
     } catch (err: unknown) {
+      const axiosError = err as { response?: { data?: { message?: string } } };
       const message =
-        err instanceof Error ? err.message : 'Something went wrong. Please try again.';
-      setApiError(message);
+        axiosError.response?.data?.message ?? 'Something went wrong. Please try again.';
+      setApiError(Array.isArray(message) ? message[0] : message);
     }
   };
 
